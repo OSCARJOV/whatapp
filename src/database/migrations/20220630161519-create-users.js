@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  async up (queryInterface, DataTypes) {
+  async up (queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
@@ -50,19 +50,18 @@ module.exports = {
           allowNull: false,
           field: 'updated_at'
       }
-    }, {
-      sequelize,
-      tableName: 'users',
-      schema: 'public',
-      timestamps: true,
-      indexes: [
-        {
-          name: "users_email_key",
-          unique: true,
-          fields: [
-            { name: "email" },
-          ]
-        });
+    },
+      
+    );
+
+    await queryInterface.addConstraint(
+      'users', 
+      {
+        field: ['email', 'id'],
+        type: 'unique',
+        name: 'unique_emai_id'
+      }
+    )
      
   },
 
